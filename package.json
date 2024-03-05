@@ -1,0 +1,30 @@
+{
+  "name": "cypress",
+  "version": "1.0.0",
+  "description": "E2E Testing Cypress",
+  "main": "index.js",
+  "scripts": {
+    "test1": "test",
+    "cypress:open": "cypress open",
+    "limpiar-reporte": "rimraf ./allure-report && rimraf ./allure-results",
+    "ejecutar-pruebas": "cypress run --browser chrome --headed --env allure=true",
+    "generar-reporte": "allure generate allure-results -o allure-report --clean",
+    "abrir-report": "allure open",
+    "test": "npm run limpiar-reporte && npm run ejecutar-pruebas & npm run generar-reporte && npm run abrir-report"
+  },
+  "keywords": [
+    "automation"
+  ],
+  "author": "andres",
+  "license": "ISC",
+  "devDependencies": {
+    "@shelex/cypress-allure-plugin": "^2.40.1",
+    "cypress-iframe": "^1.0.1",
+    "cypress-plugin-tab": "^1.0.5",
+    "cypress-xpath": "^2.0.1"
+  },
+  "dependencies": {
+    "allure-commandline": "^2.27.0",
+    "cypress": "^12.13.0"
+  }
+}
