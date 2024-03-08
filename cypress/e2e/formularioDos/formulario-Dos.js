@@ -10,7 +10,7 @@ class formularioDos{
             cy.xpath("(//input[@type='text'])[8]").should('be.visible').type(direc)
     }
     selectCombobox(dep,prov,dist){
-            cy.xpath("//input[@placeholder='Seleccionar departamento']").should('be.visible').click().type(dep)
+            cy.xpath("//input[@placeholder='Seleccionar departamento']").should('be.visible').click().type(`${dep}{downArrow}{enter}`)
             cy.xpath("//input[@placeholder='Seleccionar provincia']").should('be.visible').click().type(prov)
             cy.xpath("//input[@placeholder='Seleccionar distrito']").should('be.visible').click().type(dist)
            
@@ -18,6 +18,10 @@ class formularioDos{
     }
     buttonPay(){
         cy.xpath("//button[normalize-space(.)='Pagar']").should('be.visible').click()
+    }
+
+    validarFormulario(){
+        
     }
 }
 

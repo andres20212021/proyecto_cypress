@@ -6,12 +6,13 @@ module.exports = defineConfig({
   e2e: {
     video: false,
     chromeWebSecurity: false,
-    projectId: "6oyik2",
+    projectId: "q2x6rc",
     defaultCommandTimeout: 5000,
     setupNodeEvents(on, config) {
       // implement node event listeners here
       allureWriter(on, config);
       return config;
+      
     },
   },
 });
