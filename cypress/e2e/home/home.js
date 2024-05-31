@@ -20,7 +20,7 @@ class Home{
             cy.url().should('eq','https://acepta_peru.aivohelp.com/');
             
          })
-        
+        //este es un comentario para la rama 1
         
         //cy.get('a[href*="/article/cual-es-el-valor-del-certificado-digital/"]').should('be.visible')
         //cy.xpath('/html/body/app-help/main/app-tags/app-tag-cards/div/section[1]/article[1]/mat-card/mat-card-content/nav/ul/li[1]/a').should('be.visible')
