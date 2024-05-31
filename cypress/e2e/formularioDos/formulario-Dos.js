@@ -21,7 +21,12 @@ class formularioDos{
     }
 
     validarFormulario(){
-        
+        cy.xpath("//input[@placeholder='Nombres']").type('test1')
+        cy.xpath('//div[contains(text(),"El campo debe contener solo letras")]').should('be.visible')
+        cy.xpath("//input[@placeholder='Nombres']").clear()
+    
+
+
     }
 }
 

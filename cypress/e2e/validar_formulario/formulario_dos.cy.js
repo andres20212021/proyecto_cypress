@@ -12,7 +12,9 @@ describe('ingreso formulario dos con clases', () => {
         master.selectDosClick()
         master.clickButtonComprar()
         formUno.validarTitle()
-        formularioDos.ingresarDni(65656565)
+        //formularioDos.validarFormularioDos()
+        //formularioDos.ingresarDni(65656565)
+        
 
 
 

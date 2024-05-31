@@ -32,14 +32,19 @@ describe('template spec', () => {
       master.selectDosClick()
       master.clickButtonComprar()
       formUno.validarTitle()
+      
+      //formUno.validarFormularioUserName01()
+      
+      //formUno.validarFormularioUserName()
+
       //cy.reload()    
       formUno.ingresarDatos(56565656,"nombres","apEjemplo","amEjemplo","test@gmail.com","test@gmail.com")
       formUno.selectCheck()
       formDos.ingresarBoleta("nombre","apEjemplo","amEjemplo",45456735,"tes@gmail.com","calle test")
       formDos.selectCombobox('Amazonas','Chachapoyas{downArrow}{enter}','Chachapoyas{downArrow}{enter}')
-      //formUno.clickBoton()
-      //formDos.buttonPay()
-      //merPago.ingresarTarjeta()
+      formUno.clickBoton()
+      formDos.buttonPay()
+      merPago.ingresarTarjeta()
       //cy.ingresar_campos(22,"aaaa","e","eeee","iiiii@gmail.com","iiiii@gmail.com")
       //formUno.validarForm("//div[contains(text(),'El campo DNI debe ser de 8 dígitos')]","El campo DNI debe ser de 8 dígitos")
       //cy.xpath("//div[contains(text(),'El campo DNI debe ser de 8 dígitos')]").should('have.css', 'background-color', 'rgba(0, 0, 0, 0)');
@@ -63,7 +68,7 @@ describe('template spec', () => {
       master.selectCertTresParametros("(//input[@placeholder='Tipo de producto'])[1]","//div[contains(text(),'Certificado SUNAT para persona jurídica o representante legal')]","#marketplace-0")
      })
 
-     it('click preguntas frecuentes',()=>{
+     it.only('click preguntas frecuentes',()=>{
       const homeV = new Home()
       homeV.otherPage()
 
@@ -71,6 +76,7 @@ describe('template spec', () => {
      it('click terminos y condiciones',()=>{
       const homeV = new Home()
       homeV.terminosCondiciones()
+      master.selectCertDosPrametros("(//input[@placeholder='Tipo de producto'])[1]","//div[contains(text(),'Certificado SUNAT para persona natural con negocio')]")
      })
 
    

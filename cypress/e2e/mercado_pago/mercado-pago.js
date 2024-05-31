@@ -16,6 +16,11 @@ class mercadoPago{
         cy.get('#pay').click()
         //cy.wait(1000)
         cy.xpath('//a[contains(text(),"Volver al sitio")]').should('be.visible',{timeout:1000}).click()
+        cy.get('.mt-4').should('be.visible','Lo siento, algo ha salido mal, por favor inténtalo nuevamente')
+        cy.get('[href="/marketplace"] > span').click()
+        cy.wait(4000)
+        cy.go('back')
+        cy.get('.mt-4').should('be.visible','Lo siento, algo ha salido mal, por favor inténtalo nuevamente')
         
         
 

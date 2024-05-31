@@ -52,8 +52,32 @@ class FormularioUno{
 
     }
 
+    validarFormularioUserName(){
+        cy.xpath("//input[@placeholder='Nombres']").type('test1')
+        cy.xpath('//div[contains(text(),"El campo debe contener solo letras")]').should('be.visible')
+        cy.xpath("//input[@placeholder='Nombres']").clear()
+        cy.xpath("//input[@placeholder='Nombres']").should('be.visible').type(6666)
+        cy.xpath('//div[contains(text(),"El campo debe contener solo letras")]').should('be.visible')
+        cy.xpath("//input[@placeholder='Nombres']").clear()
+        cy.xpath("//input[@placeholder='Nombres']").type('t')
+        cy.xpath('//div[contains(text(),"El campo debe contener al menos 2 letras")]').should('be.visible')
+        //solo estoy validado un solo campo que es nombre faltaria todos los otros del formulario que 
+        //tiene otras validaciones 
+        
 
     
+    }
+    validarFormularioUserName01(){
+
+
+        cy.xpath("//input[@placeholder='Nombres']").validarCampoFormulario()
+
+        
+        cy.xpath("//input[@placeholder='Apellido Paterno']").validarCampoFormulario()
+        cy.xpath("//input[@placeholder='Apellido Materno']").validarCampoFormulario()
+    }
+
+   
 }
 
 export default FormularioUno;

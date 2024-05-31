@@ -7,6 +7,7 @@ class FormularioDosClass{
         mailInput:()=> cy.get('input[type="email"]').eq(0), 
         mailDosInput:()=> cy.get('input[type="email"]').eq(1)
     }
+      // txtDni='input[placeholder="Número DNI"]'
 
     ingresarDni(dni){
         this.get.dniInput().type(dni)
@@ -25,6 +26,11 @@ class FormularioDosClass{
     }
     ingresarmMailDos(mailDos){
         this.get.mailDosInput().type(mailDos)
+    }
+
+    validarFormularioDos(){
+       // cy.xpath("//input[@placeholder='Nombres']").validarCampoFormulario()
+        this.get.usernameInput().validarCampoFormulario()
     }
 }
 

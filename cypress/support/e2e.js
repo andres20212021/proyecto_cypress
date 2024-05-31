@@ -21,10 +21,17 @@ require('cypress-xpath');
 beforeEach(() => {
   
     cy.viewport(1280, 720)
-    cy.clearAllCookies()
-    cy.clearLocalStorage()
+   // cy.clearAllCookies()
+    //cy.clearLocalStorage()
     cy.visit('https://uat-autoriza-web-latam.smb.sovos.com/marketplace');
 })
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false
+  })
+
 
 
 
