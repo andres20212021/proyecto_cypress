@@ -1,0 +1,102 @@
+name: Cypress Regression
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: cypress-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    name: Run Cypress (Chrome, Node 20.11.0)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # 1) Checkout del repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2) Node 20.11.0 + cache de npm
+      - name: Use Node 20.11.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.11.0'
+          cache: 'npm'
+
+      # 3) Cache del binario de Cypress (acelera builds)
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            cypress-${{ runner.os }}-
+
+      # 4) Instalar dependencias (incluye cypress y cypress-xpath desde tu package.json)
+      - name: Install dependencies
+        run: npm ci
+
+      # 5) Verificar que Cypress está instalado correctamente
+      - name: Verify Cypress
+        run: npx cypress verify
+
+      # 6) Mostrar versiones y asegurar Cypress 12.13.0 (fail si no coincide)
+      - name: Check versions
+        run: |
+          echo "Node: $(node -v)"
+          echo "NPM:  $(npm -v)"
+          echo "Cypress package: $(node -p "require('./package.json').devDependencies?.cypress || require('./package.json').dependencies?.cypress")"
+          INSTALLED=$(npx cypress version --component package | awk '{print $NF}')
+          if [ "$INSTALLED" != "12.13.0" ]; then
+            echo "❌ Cypress version mismatch. Expected 12.13.0 but got $INSTALLED"
+            exit 1
+          fi
+
+      # 7) (Opcional) Construir/levantar tu app. Si no tienes app, borra build/start/wait-on
+      - name: Build app (optional)
+        run: npm run build --if-present
+      - name: Start app (optional)
+        run: npm run start --if-present &
+      - name: Wait for app (optional)
+        if: always()
+        run: npx wait-on http://localhost:3000 || true
+
+      # 8) Correr Cypress. Si usas cypress.config.js o cypress.config.ts, no toques config-file
+      #    XPath funciona sin pasos extras si ya tienes 'cypress-xpath' instalado y registrado en support/e2e.js
+      - name: Run Cypress tests (Chrome)
+        uses: cypress-io/github-action@v6
+        with:
+          install: false            # ya hicimos npm ci
+          browser: chrome
+          command: npx cypress run --config-file cypress.config.js
+        env:
+          # Si necesitas variables para el run, agrégalas aquí
+          # CYPRESS_BASE_URL: https://tu-app.com
+          # Ejemplo: habilitar grabación si usas Dashboard
+          # CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TZ: America/Santiago
+
+      # 9) Subir artefactos si falla (screenshots/videos)
+      - name: Upload screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore
+
+      - name: Upload videos
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          if-no-files-found: ignore
+
+
